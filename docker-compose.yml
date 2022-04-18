@@ -1,0 +1,39 @@
+version: "3.9"  
+services:
+  http1tls:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    command: ["--version", "HTTP/1.1TLS",  "--name", "http1.1tls"]
+    links:
+      - http1
+      - http2
+      - http3 
+  http1:
+    build: .
+    ports:
+      - "8081:8080"
+    env_file:
+      - .env
+    command: ["--version", "HTTP/1.1",  "--name", "http1.1"]
+    links:
+      - http2
+      - http3
+  http2:
+    build: .
+    ports:
+      - "8082:8080"
+    env_file:
+      - .env
+    command: ["--version", "HTTP/2", "--name", "http2"]
+    links:
+      - http3
+  http3:
+    build: .
+    ports:
+      - "8083:8080"
+    env_file:
+      - .env
+    command: ["--version", "HTTP/3", "--name", "http3"]
